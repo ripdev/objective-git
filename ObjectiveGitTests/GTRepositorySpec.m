@@ -360,7 +360,7 @@ describe(@"-checkout:strategy:error:progressBlock:", ^{
 		GTReference *ref = [GTReference referenceByLookingUpReferencedNamed:@"refs/heads/other-branch" inRepository:repository error:&error];
 		expect(ref).notTo(beNil());
 		expect(error.localizedDescription).to(beNil());
-		BOOL result = [repository checkoutReference:ref strategy:GTCheckoutStrategyAllowConflicts error:&error progressBlock:nil];
+		BOOL result = [repository checkoutReference:ref options:[GTCheckoutOptions checkoutOptionsWithStrategy:GTCheckoutStrategyAllowConflicts] error:&error];
 		expect(@(result)).to(beTruthy());
 		expect(error.localizedDescription).to(beNil());
 	});
@@ -370,7 +370,7 @@ describe(@"-checkout:strategy:error:progressBlock:", ^{
 		GTCommit *commit = [repository lookUpObjectBySHA:@"1d69f3c0aeaf0d62e25591987b93b8ffc53abd77" objectType:GTObjectTypeCommit error:&error];
 		expect(commit).notTo(beNil());
 		expect(error.localizedDescription).to(beNil());
-		BOOL result = [repository checkoutCommit:commit strategy:GTCheckoutStrategyAllowConflicts error:&error progressBlock:nil];
+		BOOL result = [repository checkoutCommit:commit options:[GTCheckoutOptions checkoutOptionsWithStrategy:GTCheckoutStrategyAllowConflicts] error:&error];
 		expect(@(result)).to(beTruthy());
 		expect(error.localizedDescription).to(beNil());
 	});
