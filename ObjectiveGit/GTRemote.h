@@ -130,6 +130,16 @@ typedef enum {
 /// adding the refspec or saving the remote failed.
 - (BOOL)addFetchRefspec:(NSString *)fetchRefspec error:(NSError **)error;
 
+/// Adds a push refspec to this remote.
+///
+/// fetchRefspec - The push refspec string to add. May not be nil.
+/// error        - If not NULL, this will be set to any error that occurs
+///                when adding the refspec or saving the remote.
+///
+/// Returns YES if there is the refspec is successfully added
+/// or a matching refspec is already present, NO and an error if
+/// adding the refspec or saving the remote failed.
+- (BOOL)addPushRefspec:(NSString *)pushRefspec error:(NSError **)error
 @end
 
 NS_ASSUME_NONNULL_END

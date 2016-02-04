@@ -219,4 +219,19 @@ NSString * const GTRemoteRenameProblematicRefSpecs = @"GTRemoteRenameProblematic
 	return YES;
 }
 
+- (BOOL)addPushRefspec:(NSString *)pushRefspec error:(NSError **)error {
+	NSParameterAssert(pushRefspec != nil);
+
+	if ([self.pushRefspecs containsObject:fetchRefspec]) return YES;
+
+	int gitError = git_remote_add_push(self.repository.git_repository, self.name.UTF8String, fetchRefspec.UTF8String);
+	if (gitError != GIT_OK) {
+		if (error != NULL) {
+			*error = [NSError git_errorFor:gitError description:@"Failed to add push refspec."];
+		}
+		return NO;
+	}
+	return YES;
+}
+
 @end
