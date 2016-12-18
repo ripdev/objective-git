@@ -30,8 +30,10 @@ typedef NS_OPTIONS(NSInteger, GTFileStatusFlags) {
 	GTFileStatusDeletedInWorktree     = GIT_STATUS_WT_DELETED,
 	GTFileStatusTypeChangedInWorktree = GIT_STATUS_WT_TYPECHANGE,
 	GTFileStatusRenamedInWorktree     = GIT_STATUS_WT_RENAMED,
+	GTFileStatusUnreadableInWorktree  = GIT_STATUS_WT_UNREADABLE,
 
-	GTFileStatusIgnored = GIT_STATUS_IGNORED,
+	GTFileStatusIgnored    = GIT_STATUS_IGNORED,
+	GTFileStatusConflicted = GIT_STATUS_CONFLICTED
 };
 
 /// An `NSNumber` wrapped `GTRepositoryStatusOptionsShow` bitmask.
@@ -57,8 +59,8 @@ extern NSString *const GTRepositoryStatusOptionsFlagsKey;
 /// An enum, for use as documented, with the `GTRepositoryStatusOptionsFlagsKey`
 /// key.
 ///
-/// See status.h for documentation of each individual flag.
-typedef enum {
+/// See status.h for documentation of each individual git_status_opt_t flag.
+typedef NS_OPTIONS(NSInteger, GTRepositoryStatusFlags) {
 	GTRepositoryStatusFlagsIncludeUntracked = GIT_STATUS_OPT_INCLUDE_UNTRACKED,
 	GTRepositoryStatusFlagsIncludeIgnored = GIT_STATUS_OPT_INCLUDE_IGNORED,
 	GTRepositoryStatusFlagsIncludeUnmodified = GIT_STATUS_OPT_INCLUDE_UNMODIFIED,
@@ -68,12 +70,14 @@ typedef enum {
 	GTRepositoryStatusFlagsRecurseIgnoredDirectories = GIT_STATUS_OPT_RECURSE_IGNORED_DIRS,
 	GTRepositoryStatusFlagsRenamesHeadToIndex = GIT_STATUS_OPT_RENAMES_HEAD_TO_INDEX,
 	GTRepositoryStatusFlagsRenamesIndexToWorkingDirectory = GIT_STATUS_OPT_RENAMES_INDEX_TO_WORKDIR,
-	GTRepositoryStatusFlagsRenamesFromRewrites = GIT_STATUS_OPT_RENAMES_FROM_REWRITES,
 	GTRepositoryStatusFlagsSortCaseSensitively = GIT_STATUS_OPT_SORT_CASE_SENSITIVELY,
 	GTRepositoryStatusFlagsSortCaseInsensitively = GIT_STATUS_OPT_SORT_CASE_INSENSITIVELY,
+	GTRepositoryStatusFlagsRenamesFromRewrites = GIT_STATUS_OPT_RENAMES_FROM_REWRITES,
+	GTRepositoryStatusFlagsNoRefresh = GIT_STATUS_OPT_NO_REFRESH,
+	GTRepositoryStatusFlagsUpdateIndex = GIT_STATUS_OPT_UPDATE_INDEX,
 	GTRepositoryStatusFlagsIncludeUnreadable = GIT_STATUS_OPT_INCLUDE_UNREADABLE,
 	GTRepositoryStatusFlagsIncludeUnreadableAsUntracked = GIT_STATUS_OPT_INCLUDE_UNREADABLE_AS_UNTRACKED,
-} GTRepositoryStatusFlags;
+};
 
 /// An `NSArray` of `NSStrings`s to limit the status to specific paths inside
 /// the repository.  The entries in the array represent either single paths or
