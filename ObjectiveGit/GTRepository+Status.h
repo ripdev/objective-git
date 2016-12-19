@@ -76,7 +76,7 @@ typedef NS_OPTIONS(NSInteger, GTRepositoryStatusFlags) {
 	GTRepositoryStatusFlagsNoRefresh = GIT_STATUS_OPT_NO_REFRESH,
 	GTRepositoryStatusFlagsUpdateIndex = GIT_STATUS_OPT_UPDATE_INDEX,
 	GTRepositoryStatusFlagsIncludeUnreadable = GIT_STATUS_OPT_INCLUDE_UNREADABLE,
-	GTRepositoryStatusFlagsIncludeUnreadableAsUntracked = GIT_STATUS_OPT_INCLUDE_UNREADABLE_AS_UNTRACKED,
+	GTRepositoryStatusFlagsIncludeUnreadableAsUntracked = GIT_STATUS_OPT_INCLUDE_UNREADABLE_AS_UNTRACKED
 };
 
 /// An `NSArray` of `NSStrings`s to limit the status to specific paths inside
