@@ -32,7 +32,7 @@ typedef NS_OPTIONS(NSInteger, GTFileStatusFlags) {
 	GTFileStatusRenamedInWorktree     = GIT_STATUS_WT_RENAMED,
 	GTFileStatusUnreadableInWorktree  = GIT_STATUS_WT_UNREADABLE,
 
-	GTFileStatusIgnored    = GIT_STATUS_IGNORED,
+	GTFileStatusIgnored = GIT_STATUS_IGNORED,
 	GTFileStatusConflicted = GIT_STATUS_CONFLICTED
 };
 
@@ -70,9 +70,9 @@ typedef NS_OPTIONS(NSInteger, GTRepositoryStatusFlags) {
 	GTRepositoryStatusFlagsRecurseIgnoredDirectories = GIT_STATUS_OPT_RECURSE_IGNORED_DIRS,
 	GTRepositoryStatusFlagsRenamesHeadToIndex = GIT_STATUS_OPT_RENAMES_HEAD_TO_INDEX,
 	GTRepositoryStatusFlagsRenamesIndexToWorkingDirectory = GIT_STATUS_OPT_RENAMES_INDEX_TO_WORKDIR,
+	GTRepositoryStatusFlagsRenamesFromRewrites = GIT_STATUS_OPT_RENAMES_FROM_REWRITES,
 	GTRepositoryStatusFlagsSortCaseSensitively = GIT_STATUS_OPT_SORT_CASE_SENSITIVELY,
 	GTRepositoryStatusFlagsSortCaseInsensitively = GIT_STATUS_OPT_SORT_CASE_INSENSITIVELY,
-	GTRepositoryStatusFlagsRenamesFromRewrites = GIT_STATUS_OPT_RENAMES_FROM_REWRITES,
 	GTRepositoryStatusFlagsNoRefresh = GIT_STATUS_OPT_NO_REFRESH,
 	GTRepositoryStatusFlagsUpdateIndex = GIT_STATUS_OPT_UPDATE_INDEX,
 	GTRepositoryStatusFlagsIncludeUnreadable = GIT_STATUS_OPT_INCLUDE_UNREADABLE,
