@@ -117,7 +117,7 @@ extern NSString *const GTRepositoryStatusOptionsPathSpecArrayKey;
 ///
 /// Returns `NO` in case of a failure or `YES` if the enumeration completed
 /// successfully.
-- (BOOL)enumerateFileStatusWithOptions:(nullable NSDictionary *)options error:(NSError **)error usingBlock:(nullable void (^)(GTStatusDelta * __nullable headToIndex, GTStatusDelta * __nullable indexToWorkingDirectory, BOOL *stop))block;
+- (BOOL)enumerateFileStatusWithOptions:(NSDictionary * _Nullable)options error:(NSError **)error usingBlock:(void (^ _Nullable)(GTStatusDelta * _Nullable headToIndex, GTStatusDelta * _Nullable indexToWorkingDirectory, BOOL *stop))block;
 
 /// Query the status of one file
 ///
@@ -126,7 +126,7 @@ extern NSString *const GTRepositoryStatusOptionsPathSpecArrayKey;
 /// error    - If not nil, set to any error that occurs.
 ///
 /// Returns the combined GTFileStatusFlags for the file.
-- (GTFileStatusFlags)statusForFile:(NSString *)filePath success:(nullable BOOL *)success error:(NSError **)error;
+- (GTFileStatusFlags)statusForFile:(NSString *)filePath success:(BOOL * _Nullable)success error:(NSError **)error;
 
 /// Tests the ignore rules to see if the file should be considered as ignored.
 ///
@@ -135,7 +135,7 @@ extern NSString *const GTRepositoryStatusOptionsPathSpecArrayKey;
 /// error    - If not nil, set to any error that occurs.
 ///
 /// Returns YES if the file should be ignored; NO otherwise.
-- (BOOL)shouldFileBeIgnored:(NSURL *)fileURL success:(nullable BOOL *)success error:(NSError **)error;
+- (BOOL)shouldFileBeIgnored:(NSURL *)fileURL success:(BOOL * _Nullable)success error:(NSError **)error;
 
 /// An enum for use with shouldIgnoreFileURL:error: below
 typedef NS_ENUM(NSInteger, GTFileIgnoreState) {
