@@ -123,10 +123,11 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 
 - (GTOID *)checksum {
 	const git_oid *oid = git_index_checksum(self.git_index);
-	if (oid != NULL)
+	if (oid != NULL) {
 		return [GTOID oidWithGitOid:oid];
-	else
-		return nil;
+	}
+
+	return nil;
 }
 
 - (NSUInteger)entryCount {
@@ -326,17 +327,17 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 			return NO;
 		}
 
-		GTIndexEntry *blockAncestor = nil;
+		GTIndexEntry *blockAncestor;
 		if (ancestor != NULL) {
 			blockAncestor = [[GTIndexEntry alloc] initWithGitIndexEntry:ancestor];
 		}
 
-		GTIndexEntry *blockOurs = nil;
+		GTIndexEntry *blockOurs;
 		if (ours != NULL) {
 			blockOurs = [[GTIndexEntry alloc] initWithGitIndexEntry:ours];
 		}
 
-		GTIndexEntry *blockTheirs = nil;
+		GTIndexEntry *blockTheirs;
 		if (theirs != NULL) {
 			blockTheirs = [[GTIndexEntry alloc] initWithGitIndexEntry:theirs];
 		}
@@ -354,9 +355,7 @@ struct GTIndexPathspecMatchedInfo {
 	BOOL shouldAbortImmediately;
 };
 
-- (BOOL)addPathspecs:(NSArray *)pathspecs flags:(GTIndexAddOptionFlags)flags error:(NSError **)error passingTest:(GTIndexPathspecMatchedBlock)block {
-	NSAssert(self.repository.isBare == NO, @"This method only works with non-bare repositories.");
-
+- (BOOL)addPathspecs:(NSArray *)pathspecs flags:(GTIndexAddOptions)flags error:(NSError **)error passingTest:(GTIndexPathspecMatchedBlock)block {
 	__block git_strarray strarray = pathspecs.git_strarray;
 	@onExit {
 		if (strarray.count > 0) git_strarray_free(&strarray);
@@ -367,7 +366,7 @@ struct GTIndexPathspecMatchedInfo {
 		.shouldAbortImmediately = NO,
 	};
 
-	int returnCode = git_index_add_all(self.git_index, &strarray, (unsigned int)flags, (block != nil ? GTIndexPathspecMatchFound : NULL), &payload);
+	int returnCode = git_index_add_all(self.git_index, &strarray, (unsigned int)flags, (block != nil ? GTIndexPathspecMatchFoundCallback : NULL), &payload);
 	if (returnCode != GIT_OK && returnCode != GIT_EUSER) {
 		if (error != nil) *error = [NSError git_errorFor:returnCode description:NSLocalizedString(@"Could not add to index.", nil)];
 		return NO;
@@ -377,8 +376,6 @@ struct GTIndexPathspecMatchedInfo {
 }
 
 - (BOOL)removePathspecs:(NSArray *)pathspecs error:(NSError **)error passingTest:(GTIndexPathspecMatchedBlock)block {
-	NSAssert(self.repository.isBare == NO, @"This method only works with non-bare repositories.");
-
 	__block git_strarray strarray = pathspecs.git_strarray;
 	@onExit {
 		if (strarray.count > 0) git_strarray_free(&strarray);
@@ -389,7 +386,7 @@ struct GTIndexPathspecMatchedInfo {
 		.shouldAbortImmediately = NO,
 	};
 
-	int returnCode = git_index_remove_all(self.git_index, &strarray, (block != nil ? GTIndexPathspecMatchFound : NULL), &payload);
+	int returnCode = git_index_remove_all(self.git_index, &strarray, (block != nil ? GTIndexPathspecMatchFoundCallback : NULL), &payload);
 	if (returnCode != GIT_OK && returnCode != GIT_EUSER) {
 		if (error != nil) *error = [NSError git_errorFor:returnCode description:NSLocalizedString(@"Could not remove from index.", nil)];
 		return NO;
@@ -399,8 +396,6 @@ struct GTIndexPathspecMatchedInfo {
 }
 
 - (BOOL)updatePathspecs:(NSArray *)pathspecs error:(NSError **)error passingTest:(GTIndexPathspecMatchedBlock)block {
-	NSAssert(self.repository.isBare == NO, @"This method only works with non-bare repositories.");
-
 	__block git_strarray strarray = pathspecs.git_strarray;
 	@onExit {
 		if (strarray.count > 0) git_strarray_free(&strarray);
@@ -411,7 +406,7 @@ struct GTIndexPathspecMatchedInfo {
 		.shouldAbortImmediately = NO,
 	};
 
-	int returnCode = git_index_update_all(self.git_index, &strarray, (block != nil ? GTIndexPathspecMatchFound : NULL), &payload);
+	int returnCode = git_index_update_all(self.git_index, &strarray, (block != nil ? GTIndexPathspecMatchFoundCallback : NULL), &payload);
 	if (returnCode != GIT_OK && returnCode != GIT_EUSER) {
 		if (error != nil) *error = [NSError git_errorFor:returnCode description:NSLocalizedString(@"Could not update index.", nil)];
 		return NO;
@@ -420,7 +415,7 @@ struct GTIndexPathspecMatchedInfo {
 	return YES;
 }
 
-int GTIndexPathspecMatchFound(const char *path, const char *matched_pathspec, void *payload) {
+int GTIndexPathspecMatchFoundCallback(const char *path, const char *matched_pathspec, void *payload) {
 	struct GTIndexPathspecMatchedInfo *info = payload;
 	GTIndexPathspecMatchedBlock block = info->block;
 	if (info->shouldAbortImmediately) {
